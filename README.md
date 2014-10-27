@@ -34,6 +34,8 @@ type O represents core
      5 would represent specific computer sysstem elective, 
      6 represents Biomed-elec group 1 
      7 represents Biomed=elec group 2  
+     8 represents Software sepecific 1 
+     9 represnts software specififc 2
 9- Need to look at 1 credit complementary courses 
 10- If you are searching complementary study electives, use 5 as your stream ID. 
 
