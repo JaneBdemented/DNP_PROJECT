@@ -24,3 +24,5 @@ To DO:
 -PREQ table
 -ENG ELECTIVES
 
+7-If you are on pattern you pay attention to the years collumn, but if off pattern you ignore it 
+
