@@ -8,66 +8,75 @@ echo "starting code";
 $conn = new mysqli($servername, $username, $password);
 // Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+die("Connection failed: " . $conn->connect_error);
 }
 // Create database
 $sql = "CREATE DATABASE DNP_PROJECT";
 if ($conn->query($sql) === TRUE) {
-    echo "Database created successfully";
+echo "Database created successfully";
 } else {
-    echo "Error creating database: " . $conn->error;
+echo "Error creating database: " . $conn->error;
 }
 $conn->close();
 //Create tables
 $conn = new mysqli($servername, $username, $password, $DNPDB);
- //Check connection
+//Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+die("Connection failed: " . $conn->connect_error);
 }
 $sql = "CREATE TABLE Stream (stream_id int(4) PRIMARY KEY, stream varchar(8))";
 if ($conn->query($sql) === TRUE) {
-    echo "TABLE stream created successfully";
+echo "TABLE stream created successfully";
 } else {
-    echo "Error creating TABLE: " . $conn->error;
+echo "Error creating TABLE Stream: " . $conn->error;
 }
-$sql = "CREATE TABLE Courses (course_id int(4) primary key NOT NULL, 
-							  SUBJ varchar(4) NOT NULL, 
-							  CRSE_NUM int(4) NOT NULL, 
-							  NAME text, 
-							  SMSTR int(1) NOT NULL,
-							  HAS_LAB varchar(1), 
-							  HAS_TUT varchar(1))";
+$sql = "CREATE TABLE Courses (course_id int(4) primary key NOT NULL,
+SUBJ varchar(4) NOT NULL,
+CRSE_NUM int(4) NOT NULL,
+NAME text,
+SMSTR int(1) NOT NULL,
+HAS_LAB varchar(1),
+HAS_TUT varchar(1))";
 if ($conn->query($sql) === TRUE) {
-    echo "TABLE Couses created successfully";
+echo "TABLE Couses created successfully";
 } else {
-    echo "Error creating TABLE: " . $conn->error;
+echo "Error creating TABLE Courses: " . $conn->error;
 }
-$sql = "CREATE TABLE Course_Timing (CoursTime_id int(4) primary key NOT NULL, 
-									course_id int(4), 
-									SUB_VAL varchar(3),
-									TYPE varchar(3),
-									DAYS varchar(4),
-									time_s time(4), 
-									time_e time(4), 
-									ROOM_CAP varchar(3), 
-									has_prereq int(1), 
-									has_yearStanding int(1),
-									FOREIGN KEY (course_id) REFERENCES Courses(course_id) )";
+$sql = "CREATE TABLE Course_Timing (CoursTime_id int(4) primary key NOT NULL,
+course_id int(4),
+SUB_VAL varchar(3),
+TYPE varchar(3),
+DAYS varchar(4),
+time_s time(4), 
+time_e time(4),
+ROOM_CAP varchar(3),
+has_prereq int(1),
+has_yearStanding int(1),
+FOREIGN KEY (course_id) REFERENCES Courses(course_id) )";
 if ($conn->query($sql) === TRUE) {
-    echo "TABLE Couses_timing created successfully";
+echo "TABLE Couses_timing created successfully";
 } else {
-    echo "Error creating TABLE: " . $conn->error;
+echo "Error creating TABLE Course_Timing: " . $conn->error;
 }
-$sql = "CREATE TABLE Stream_Courses (Stream_Courses_id smallint primary key NOT NULL, 
-									 stream_id int(4) NOT NULL, 
-									 course_id int(1) NOT NULL, 
-									 YEAR tinyint(1),
-									 FOREIGN KEY (stream_id) REFERENCES Stream(stream_id),
-									 FOREIGN KEY (course_id) REFERENCES Course_Timing(course_id))";
+$sql = "CREATE TABLE Course_Type (type_id int(1) primary key NOT NULL,
+Type varchar(10))";
 if ($conn->query($sql) === TRUE) {
-    echo "TABLE Stream_Couses created successfully";
+echo "TABLE Couses_Type created successfully";
 } else {
-    echo "Error creating TABLE: " . $conn->error;
+echo "Error creating TABLE Course_Type: " . $conn->error;
+}
+$sql = "CREATE TABLE Stream_Courses (Stream_Courses_id smallint primary key NOT NULL,
+stream_id int(4) NOT NULL,
+course_id int(1) NOT NULL,
+YEAR tinyint(1),
+type_id int(1),
+FOREIGN KEY (stream_id) REFERENCES Stream(stream_id),
+FOREIGN KEY (course_id) REFERENCES Course_Timing(course_id),
+FOREIGN KEY (type_id) REFERENCES Course_Type(type_id))";
+if ($conn->query($sql) === TRUE) {
+echo "TABLE Stream_Couses created successfully";
+} else {
+echo "Error creating TABLE Stream_Courses: " . $conn->error;
 }
 $conn->close();
 ?> 
