@@ -25,4 +25,7 @@ To DO:
 -ENG ELECTIVES
 
 7-If you are on pattern you pay attention to the years collumn, but if off pattern you ignore it 
+8- Table course_stream under type O represents coure and 1 represnts complementary study elective and 
+9- Need to look at 1 credit complementary courses 
+
 
