@@ -45,7 +45,7 @@ if ($conn->query($sql) === TRUE) {
 $sql = "CREATE TABLE Course_Timing (CoursTime_id int(4) primary key NOT NULL, 
 									course_id int(4), 
 									SUB_VAL varchar(3),
-									TYPE varcher(3)
+									TYPE varchar(3),
 									time_s varchar(4), 
 									time_e varchar(4), 
 									ROOM_CAP varchar(3), 
