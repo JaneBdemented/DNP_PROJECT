@@ -25,7 +25,15 @@ To DO:
 -ENG ELECTIVES
 
 7-If you are on pattern you pay attention to the years collumn, but if off pattern you ignore it 
-8- Table course_stream under type O represents coure and 1 represnts complementary study elective and 
+8- Table course_stream under 
+type O represents core 
+     1 represents complementary study elective, 
+     2 represents Basic science , 
+     3 represents communications elective, 
+     4 would represent sysc/elec course in the 3000/4000 level, 
+     5 would represent specific computer sysstem elective, 
+     6 represents Biomed-elec group 1 
+     7 represents Biomed=elec group 2  
 9- Need to look at 1 credit complementary courses 
 10- If you are searching complementary study electives, use 5 as your stream ID. 
 
