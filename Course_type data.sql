@@ -1,0 +1,10 @@
+INSERT INTO Course_Type (type_id,Type) VALUES (0,'core');
+INSERT INTO Course_Type (type_id,Type) VALUES (1,'comp-Study');
+INSERT INTO Course_Type (type_id,Type) VALUES (2,'Basic_Sci');
+INSERT INTO Course_Type (type_id,Type) VALUES (3,'comm_elec');
+INSERT INTO Course_Type (type_id,Type) VALUES (4,'sysc/elec');
+INSERT INTO Course_Type (type_id,Type) VALUES (5,'CSE_spec');
+INSERT INTO Course_Type (type_id,Type) VALUES (6,'BIOM_grp1');
+INSERT INTO Course_Type (type_id,Type) VALUES (7,'BIOM_grp2');
+INSERT INTO Course_Type (type_id,Type) VALUES (8,'SE_SPEC1');
+INSERT INTO Course_Type (type_id,Type) VALUES (9,'SE_SPEC2');
