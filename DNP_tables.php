@@ -50,7 +50,7 @@ DAYS varchar(4),
 time_s time(4), 
 time_e time(4),
 ROOM_CAP varchar(3),
-has_prereq int(1),
+has_prereq int(4),
 has_yearStanding int(1),
 FOREIGN KEY (course_id) REFERENCES Courses(course_id) )";
 if ($conn->query($sql) === TRUE) {
