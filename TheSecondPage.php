@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!--<link rel="stylesheet" type="text/css" href="style.css">-->
+	<link rel="stylesheet" type="text/css" href="style.css">
+	
 	<?php
 		$servername = "localhost";
 		$username = "root";
@@ -40,62 +41,105 @@
 	
  </head>
   <body>
-  <?
-  	$sql = "SELECT course_id from Stream_Courses Where YEAR = ? AND stream_id = ?"; //setting up sql query
-  	$sql_read = "SELECT SUBJ, CRSE_NUM, NAME FROM Courses WHERE course_id = ?";  //setting up second sql query
-  	$stmt = $conn->prepare($sql);
-  	$stmt->bind_param("ii",$year, $engStream);
-	  $stmt->execute();
-	  $stmt->bind_result($course_id);
-	  echo "</table>";
-	  echo "<table border='3' align='center'>
-	  <tr>
-	  <th>SUBJ</th>
-	  <th>CRSE_NUM</th>
-	  <th>NAME</th>
-	  </tr>";
-	  $Cour = array(); //for storing the retrived course_id info from Stream_courses
-		while( $stmt->fetch())
-		{
-			$Cour[]=$course_id;
-		}
-	$stmt->close(); //closing the first query
-	$classeslist = array(); //2d array for the subject number and name of class
-	for($x=0;$x<count($Cour); $x++){ //individually querries all course_id values
-		  $stmt = $conn->prepare($sql_read);
-  		$stmt->bind_param("i", $Cour[$x]);
-		  $stmt->execute();
-		  $stmt->bind_result($subj,$courseNum,$courseName);
-		  $stmt->fetch();
-		  $stmt->close();
-		  $classeslist[$x][]= $subj;  //storing in 2d array
-		  $classeslist[$x][]= $courseNum;
-		  $classeslist[$x][]= $courseName;
-		}
-	for($row = 0; $row<count($Cour);$row++)  //displaying to page
-		{
-			$SUBJ = $classeslist[$row][0];
-			$CRSE_NUM= $classeslist[$row][1];
-			$NAME= $classeslist[$row][2];
-			echo "<tr>";
-			echo "<td><input type='checkbox' value='$SUBJ'/>" . $SUBJ . "</td>";
-			echo "<td>" . $CRSE_NUM . "</td>";
-			echo "<td>" .$NAME . "</td>";
-			echo "</tr>";
-		}
-	
-	?>
-  <script type="text/javascript"> //stuff i am not done yet!
+  	<div id="container">
+  		<h1>Course Select</h1>
+  	</div>
+  	<script type="text/javascript">
    		function swap() {
     		<?echo ("buttion was pushed");?>
 		}
     </script> 
-    <div class="Trackswitch">
-    <input type="checkbox" name="Trackswitch" class="Trackswitch-checkbox" id="trackSel" onclick = "swap()" checked>
-    <label class="Trackswitch-label" for="trackSel">
-    <span class="Trackswitch-inner"></span>
-    </label>
+    <div class="Trackswitch", id='select'>
+    	<input type="checkbox" name="Trackswitch" class="Trackswitch-checkbox" id="trackSel" onclick = "swap()" checked>
+    		<label class="Trackswitch-label" for="trackSel">
+    			<span class="Trackswitch-inner"></span>
+    		</label>
     </div> 
-    
+  		<?
+  			$sql = "SELECT course_id from Stream_Courses Where (YEAR = ? AND stream_id = ?)";
+  			$sql_read = "SELECT SUBJ, CRSE_NUM, NAME, SMSTR FROM Courses WHERE course_id = ? AND HAS_LAB = (1 or 0) ";
+  			$stmt = $conn->prepare($sql);
+  			$stmt->bind_param("ii",$year, $engStream);
+			$stmt->execute();
+			$stmt->bind_result($course_id);
+			$Cour = array();
+			while( $stmt->fetch())
+			{
+				$Cour[]=$course_id;
+			}
+			$stmt->close();
+			
+			$classeslist = array();
+			for($x=0;$x<count($Cour); $x++)
+			{
+				$stmt = $conn->prepare($sql_read);
+  				$stmt->bind_param("i", $Cour[$x]);
+				$stmt->execute();
+				$stmt->bind_result($subj,$courseNum,$courseName,$semester);
+				$stmt->fetch();
+				$stmt->close();
+				$classeslist[$x][]= $subj;
+				$classeslist[$x][]= $courseNum;
+				$classeslist[$x][]= $courseName;
+				$classeslist[$x][]= $semester;
+			}
+		?>
+	<div id= 'block'>	
+		
+			<table id='list' align = 'left' padding = '10%'> 
+				<th colspan='3'>Fall Semester</th>
+				<tr>
+					<th>SUBJ</th>
+					<th>Course #</th>
+					<th>NAME</th>
+				</tr>
+		<?
+			for($row = 0; $row<count($Cour);$row++)
+			{
+				$SUBJ = $classeslist[$row][0];
+				$CRSE_NUM= $classeslist[$row][1];
+				$NAME= $classeslist[$row][2];
+				$SEMSTR = $classeslist[$row][3];
+				
+				if(!is_null($SUBJ)&&$SEMSTR==0)
+				{
+				echo "<tr>";
+				echo "<td><input type='checkbox' value='$SUBJ'/><b>" . $SUBJ . "</b></td>";
+				echo "<td><b>" . $CRSE_NUM . "</b></td>";
+				echo "<td><b>" .$NAME . "</b></td>";
+				echo "</tr>";
+				}
+			}
+		?>
+		
+			</table>
+			<table id = 'list' align='right'> 
+				<th colspan='3'>Winter Semester</th>
+				<tr>
+					<th>SUBJ</th>
+					<th>Course #</th>
+					<th>NAME</th>
+				</tr>	
+		<?
+			for($row = 0; $row<count($Cour);$row++)
+			{
+				$SUBJ = $classeslist[$row][0];
+				$CRSE_NUM= $classeslist[$row][1];
+				$NAME= $classeslist[$row][2];
+				$SEMSTR = $classeslist[$row][3];
+				
+				if(!is_null($SUBJ)&&$SEMSTR==1)
+				{
+				echo "<tr>";
+				echo "<td><input type='checkbox' value='$SUBJ'/><b>" . $SUBJ . "</b></td>";
+				echo "<td><b>" . $CRSE_NUM . "</b></td>";
+				echo "<td><b>" .$NAME . "</b></td>";
+				echo "</tr>";
+				}
+			}
+		?>
+			</table>
+		
+	<div/>
 </body>
 </html>
