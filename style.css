@@ -1,0 +1,99 @@
+#fancy {
+	width: 100%;
+	height: 100%;
+    background-image: url('grid.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+} 
+#container {
+    			text-align: center;
+    			width: 100%;
+    			}
+#block{
+		width:90%;
+		margin: 0 auto;
+		height: 40%;
+		} 
+#frame{
+		width:90%;
+		height:450px;
+		margin-left: 5%;
+		margin-right: 5%;
+		background-color: white;	
+	}
+#frame2{
+		width:90%;
+		height:450px;
+		margin-left: 5%;
+		margin-right: 5%;
+		background-color: white;	
+	}	
+#select{
+	width:20%;
+	height: 20%;
+	margin-left: 40%;
+	margin-right: 40%;
+	padding-bottom: 10px;
+	background-color: DarkTurquoise;
+	font-family: monospace;
+	font-style: bold;
+	color: black;
+	border: 3px solid blue;
+	font-size: 1.3em; 
+	text-align: center;
+}		   
+#list {
+    	border: 3px solid blue;
+   		font-style: bold;
+    	color: black;
+		}
+	#list th{
+			border: 3px solid blue;
+    		padding-top: 5px;
+   			padding-bottom: 4px;
+   			padding-right: 4px;
+   			padding-right: 4px;
+			color: AliceBlue;
+			background-color: MidnightBlue;
+			font-size: 1.7em;
+			font-family: monospace;
+	}	
+	#list td{
+			border: 3px solid blue;
+    		padding-top: 5px;
+   			padding-bottom: 4px;
+   			padding-right: 4px;
+   			padding-left: 4px;
+			background-color: DarkTurquoise;
+    		font-size: 1.3em; 
+    		font-family: monospace;
+		}
+	#list tr.alt td{
+			background-color: gray;
+		}
+h1{color: AliceBlue; font: bold 80px/100px Tr2n; font-size-adjust: .90 }
+h2{color: AliceBlue;}
+	#showFrame1 {
+		text-align: center;
+    	background-color: #51D0ED; color: #3B3A3A;
+    	width: 30%; height: 200px; 
+    	font-size: 20px; font-family:monospace;font-style: italic; font-weight: bold;
+    	text-shadow:5px 5px 10px #EEEEEE;
+    	border: 7px solid #3B3A3A; border-radius: 14px;
+    	box-shadow: 0 1px 3px #EEEEEE, 0 2px 13px #EEEEEE;
+    	margin-left: 15%;
+	}
+	#showFrame2 {
+		text-align: center;
+		margin-left: 50%;
+		margin-top: 0%;
+    	background-color: #EEEEEE; color: #3B3A3A;
+    	width: 30%; height: 200px; 
+    	font-size: 20px; font-weight: bold;font-family:monospace;font-style: italic;
+    	text-shadow:5px 5px 10px #51D0ED;
+    	border: 7px solid #3B3A3A; border-radius: 14px;
+    	box-shadow: 0 1px 3px #51D0ED, 0 2px 13px #51D0ED;
+	}
+    
+    
+    
