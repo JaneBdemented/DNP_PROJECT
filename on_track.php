@@ -3,7 +3,7 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script type='text/javascript'>
 	function findTimesFAll(){
-		var classValFall[0][] = document.getElementsType('list').getElementsType('checkbox');
+		var classValFall[0][] = document.getElementsType('list');
 		var classArray=[];
 		for (i=0;i < classVal.length;i++){
 			if(calssValFall[0][i]==selected){
