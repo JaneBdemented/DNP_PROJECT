@@ -78,5 +78,35 @@ echo "TABLE Stream_Couses created successfully";
 } else {
 echo "Error creating TABLE Stream_Courses: " . $conn->error;
 }
+$sql = "CREATE TABLE Stream_tree (index int(11) primary key AUTO_INCREMENT,
+Stream_id int(1) NOT NULL,
+year int(1) NOT NULL,
+semester int(1) NOT NULL,
+classes varchar(9),
+Type int(1),
+FOREIGN KEY (Stream_id) REFERENCES Stream(stream_id)";
+if ($conn->query($sql) === TRUE) {
+echo "TABLE Stream_Couses created successfully";
+} else {
+echo "Error creating TABLE Stream_Courses: " . $conn->error;
+}
+$sql = "CREATE TABLE Lec_Complement (Lab_index smallint primary key NOT NULL,
+LAB_id int(4) NOT NULL,
+course_id int(1) NOT NULL,
+FOREIGN KEY (Lab_id) REFERENCES Courses(course_id),
+FOREIGN KEY (course_id) REFERENCES Courses(course_id)";
+if ($conn->query($sql) === TRUE) {
+echo "TABLE Stream_Couses created successfully";
+} else {
+echo "Error creating TABLE Stream_Courses: " . $conn->error;
+}
+$sql = "CREATE TABLE TempUser_courses (index smallint primary key AUTO_INCREMENT,
+course_id int(1) NOT NULL,
+FOREIGN KEY (course_id) REFERENCES Courses(course_id)";
+if ($conn->query($sql) === TRUE) {
+echo "TABLE Stream_Couses created successfully";
+} else {
+echo "Error creating TABLE Stream_Courses: " . $conn->error;
+}
 $conn->close();
 ?> 
