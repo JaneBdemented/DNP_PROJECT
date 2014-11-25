@@ -312,6 +312,11 @@ function cleartime($start,$stop,&$timeE,&$timeO,$day,$week){
 				
 	}
 } 
+/*****************************************************************
+fallClasses() returns an array based on a first try at 
+making a conflect free fall semester timetable base on the 
+database information retrived in the above sql.
+*****************************************************************/
 function fallClasses($TreeListFall,$classesFall,$complementery){			
 			$shedF = array();
 			shuffle($TreeListFall);
@@ -434,7 +439,14 @@ function fallClasses($TreeListFall,$classesFall,$complementery){
 
 			}
 			return($shedF);	
-}				
+}
+
+/*****************************************************************
+WinterClasses() returns an array based on a first try at 
+making a conflect free Winter semester timetable base on the 
+database information retrived in the above sql.
+*****************************************************************/
+
 function winterClasses($TreeListWinter,$classesWinter,$complementery){			
 			$shedW = array();
 			shuffle($TreeListWinter);
@@ -570,24 +582,27 @@ function winterClasses($TreeListWinter,$classesWinter,$complementery){
 				
 		
 
-		/*****************************************************************
-			selectElectives() Selecting required electives, second to 
-			core courses. selection based solely on first fit. Note 
-			shuffling of array allows for random behaviours in selecting. 
-		*****************************************************************/
-		function selectElectives(){
+/*****************************************************************
+	selectElectives() Selecting required electives, second to 
+	core courses. selection based solely on first fit. Note 
+	shuffling of array allows for random behaviours in selecting. 
+*****************************************************************/
+function selectElectives(){
 
-		}
+}
 	
+/*****************************************************************
+calls to functions below store created arrays in associated
+variables (see debug for how to index in)
+*****************************************************************/
 
+$shed1F = fallClasses($TreeListFall,$classesFall,$complementery);
+//$shed2F = fallClasses($TreeListFall,$classesFall,$complementery);
+$shed1W = winterClasses($TreeListWinter,$classesWinter,$complementery);
+//	$shed2W = winterClasses($TreeListWinter,$classesWinter,$complementery);
 
-				$shed1F = fallClasses($TreeListFall,$classesFall,$complementery);
-				//$shed2F = fallClasses($TreeListFall,$classesFall,$complementery);
-				$shed1W = winterClasses($TreeListWinter,$classesWinter,$complementery);
-			//	$shed2W = winterClasses($TreeListWinter,$classesWinter,$complementery);
-
-				$conn->close();			
-				?>	
+$conn->close();			
+?>	
 
 
 <?/********************************************************************************************************
