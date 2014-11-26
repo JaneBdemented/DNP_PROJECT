@@ -91,7 +91,7 @@ echo "TABLE Stream_Couses created successfully";
 } else {
 echo "Error creating TABLE Stream_tree: " . $conn->error;
 }
-$sql = "CREATE TABLE Lec_Complement (Lab_index smallint primary key NOT NULL,
+$sql = "CREATE TABLE Lec_Complement (Lab_index smallint primary key AUTO_INCREMENT,
 LAB_id int(4) NOT NULL,
 course_id int(1) NOT NULL,
 FOREIGN KEY (Lab_id) REFERENCES Courses(course_id),
