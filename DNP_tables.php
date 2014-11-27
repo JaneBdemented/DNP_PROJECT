@@ -109,5 +109,11 @@ echo "TABLE Stream_Couses created successfully";
 } else {
 echo "Error creating TABLE TempUser_courses: " . $conn->error;
 }
+$sql = "CREATE TABLE Prereq2 (Courses varchar(15), prereq_ANDS varchar(1000), prereq_ORS varchar(1000), Status_Stream varchar(20),prereq_Type int(4),Course_id int(4) PRIMARY KEY AUTO_INCREMENT)";
+if ($conn->query($sql) === TRUE) {
+echo "TABLE Prereq2 created successfully";
+} else {
+echo "Error creating TABLE Prereq2: " . $conn->error;
+}
 $conn->close();
 ?> 
