@@ -69,19 +69,19 @@
 			$stmt->execute();
 			$stmt->bind_result($cla,$kind);
 			while($stmt->fetch()){
-				if($Semester== 0){
+				//if($Semester== 0){
 					if($kind == 0){
 						$TreeListFall[]=$cla;
 					}else{
 						$EleListFall[]=$kind;
 					}
-				}else{
-					if($kind==0){
+				//}else{
+					/* /if($kind==0){
 						$TreeListWinter[]=$cla;
 					}else{
 						$EleListWinter[]=$kind;
-					}	
-				}
+					}	 */
+			//}
 			}
 			$stmt->close();
 /********************************************************************************************************
