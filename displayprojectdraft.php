@@ -23,7 +23,7 @@ function cleartime($start,$stop,&$timeE,&$timeO,$day,$week){
 		$offset2 = array_search($stop, $timeE[$day]);
 		$offset3 = array_search($start, $timeO[$day]);
 		$offset4 = array_search($stop, $timeO[$day]);
-	}else{
+	}else{ 
 		return(1);
 	}
 	switch($week){
