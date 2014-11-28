@@ -306,7 +306,7 @@ function offTrackShed($Classes,$sem,$complementery){
 		if ($contains_all_needed){
 		
 		array_push($Elegible_Courses,$Courses_Given[$i]); //pushes this given course in the existing list of elegible courses 		
-		echo "You are eligible to take " .$Courses_Given[$i]."as you meet the prerequisites <br>" ;
+		//echo "You are eligible to take " .$Courses_Given[$i]."as you meet the prerequisites <br>" ;
 		} //end if 
 		
         break;
