@@ -62,7 +62,7 @@
   		$sqlLec = "SELECT course_id FROM TempUser_Courses WHERE 1";
   		$sqlTiming = "SELECT SUB_VAL, TYPE, DAYS, time_s, time_e,ROOM_CAP FROM Course_Timing Where course_id = ?";
  		$sqlTree = "SELECT classes, semester, Type From Stream_Tree WHERE stream_id = ? AND year = ?";
- 		$sqlElec = "SELECT course_id, type_id FROM Stream_Courses WHERE type_id = ? AND stream_id = ?";
+ 		$sqlElec = "SELECT course_id FROM Stream_Courses WHERE type_id = ?";
 
 /********************************************************************************************************
 	Retriving from database all revelent classes for stream year combo and storing into 
@@ -103,6 +103,9 @@
 				}
 
 			}
+			$tmp2 = $EleListFall;
+			$tmp3 = $EleListWinter;
+			$tmp = array_merge($tmp2,$tmp3);
 			$stmt->close();
 
 /********************************************************************************************************
@@ -110,32 +113,128 @@
 	note A,b,c,...ect.) 
 ********************************************************************************************************/			
 			
-			$Tmp1 = array_unique($EleListFall);
-			$Tmp2 = array_unique($EleListWinter);
-			$electivesFall=array();
-			$electivesWinter=array();
+			$Tmp1 = array_unique($tmp);
+			$Tmp2 = array_keys($Tmp1);
+			$compStudies= array();
+			$basicScience= array();
+			$comms_elec= array();
+			$sysc_elec= array();
+			$CSE_spec= array();
+			$BOIM_gp1= array();
+			$BIOM_gp2= array();
+			$SE_spce1= array();
+			$SE_spce2 = array();
 			$Hold=array();
-			$stmt = $conn->prepare($sqlElec);
-			$stmt->execute();
-
 			for($i=0;$i<count($Tmp1);$i++){
-				$stmt->bind_param("ii",$Tmp1[$i], $year);
-				$stmt->bind_result($elec_id, $type);
-				while($stmt->fetch()){
-					$Hold[]=$elec_id;
-					$Hold[]=$type;
+				switch($Tmp1[$Tmp2[$i]]){
+					case 1:
+						$stmt = $conn->prepare($sqlElec);
+						$stmt->bind_param("i",$Tmp1[$Tmp2[$i]]);
+						$stmt->bind_result($elec_id);
+						$stmt->execute();
+						while ( $stmt->fetch()) {
+							$compStudies[] = $elec_id;
+						}
+						$stmt->close();
+						break;
+
+					case 2:
+						$stmt = $conn->prepare($sqlElec);
+						$stmt->bind_param("i",$Tmp1[$Tmp2[$i]]);
+						$stmt->bind_result($elec_id);
+						$stmt->execute();
+						while($stmt->fetch()){
+							$basicScience[]=$elec_id;
+						}
+						$stmt->close();
+						break;
+					case 3:	
+						$stmt = $conn->prepare($sqlElec);
+						$stmt->bind_param("i",$Tmp1[$Tmp2[$i]]);
+						$stmt->bind_result($elec_id);
+						$stmt->execute();
+						while($stmt->fetch()){
+							$comms_elec[]=$elec_id;
+						}
+						$stmt->close();
+						break;
+					case 4;
+						$stmt = $conn->prepare($sqlElec);
+						$stmt->bind_param("i",$Tmp1[$Tmp2[$i]]);
+						$stmt->bind_result($elec_id);
+						$stmt->execute();
+						while($stmt->fetch()){
+							$sysc_elec[]=$elec_id;
+						}
+						$stmt->close();
+						break;
+					case 5;
+						$stmt = $conn->prepare($sqlElec);
+						$stmt->bind_param("i",$Tmp1[$Tmp2[$i]]);
+						$stmt->bind_result($elec_id);
+						$stmt->execute();
+						while($stmt->fetch()){
+							$CSE_spec[]=$elec_id;
+						}
+						$stmt->close();
+						break;	
+					case 6;
+						$stmt = $conn->prepare($sqlElec);
+						$stmt->bind_param("i",$Tmp1[$Tmp2[$i]]);
+						$stmt->bind_result($elec_id);
+						$stmt->execute();
+						while($stmt->fetch()){
+							$BOIM_gp1[]=$elec_id;
+						}
+						$stmt->close();
+						break;
+					case 7;
+						$stmt = $conn->prepare($sqlElec);
+						$stmt->bind_param("i",$Tmp1[$Tmp2[$i]]);
+						$stmt->bind_result($elec_id);
+						$stmt->execute();
+						while($stmt->fetch()){
+							$BIOM_gp2[]=$elec_id;
+						}
+						$stmt->close();
+						break;
+					case 8;
+						$stmt = $conn->prepare($sqlElec);
+						$stmt->bind_param("i",$Tmp1[$Tmp2[$i]]);
+						$stmt->bind_result($elec_id);
+						$stmt->execute();
+						while($stmt->fetch()){
+							$SE_spce1[]=$elec_id;
+						}
+						$stmt->close();
+						break;
+					case 9;
+						$stmt = $conn->prepare($sqlElec);
+						$stmt->bind_param("i",$Tmp1[$Tmp2[$i]]);
+						$stmt->bind_result($elec_id);
+						$stmt->execute();
+						while($stmt->fetch()){
+							$SE_spce2[]=$elec_id;
+						}
+						$stmt->close();
+						break;				
 				}
-				$electivesFall = array_merge($electivesFall, $Hold);
-			}	
-			for($i=0;$i<count($Tmp2);$i++){
-				$stmt->bind_param("ii",$Tmp2[$i], $year);
-				$stmt->bind_result($elec_id, $type);
-				while($stmt->fetch()){
-					$Hold[]=$elec_id;
-					$Hold[]=$type;
-				}
-				$electivesWinter = array_merge($electivesWinter, $Hold);
-			}	
+			}
+				if (!is_null($compStudies)){shuffle($compStudies);}
+				if(!is_null($basicScience)){shuffle($basicScience);}
+				if(!is_null($comms_elec)){shuffle($comms_elec);}
+				if(!is_null($sysc_elec)){shuffle($sysc_elec);}
+				if(!is_null($CSE_spec)){shuffle($CSE_spec);}
+				if(!is_null($BOIM_gp1)){shuffle($BOIM_gp1);}
+				if(!is_null($BIOM_gp2)){shuffle($BIOM_gp2);}
+				if(!is_null($SE_spce1)){shuffle($SE_spce1);}
+				if(!is_null($SE_spce2)){shuffle($SE_spce2);}
+
+$electives = array(1 => $compStudies,2 => $basicScience,3 => $comms_elec,4=>$sysc_elec,5=>$CSE_spec,6 =>$BOIM_gp1, 7=>$BIOM_gp2, 8=>$SE_spce1,9=>$SE_spce2);
+
+
+
+			
 
 /********************************************************************************************************
 	Creating an array of associated complementery classes (lab,tut,PAS,...ect) based on lectures 
@@ -186,9 +285,15 @@
 						$stmt->bind_result($sec,$type,$days,$s_time,$e_time,$space);
 						$stmt->fetch();
 						$stmt->close();	
-			
-						/*Concatinating the Complementry class scheduial information to the complementry id*/
-						array_push($complementery[$row], $sec, $type, $days, $s_time, $e_time,$space);
+						$EO = str_split($sec);
+						if(in_array('O',$EO)){
+							array_push($complementery[$row], $sec, $type, $days, $s_time, $e_time,$space,'O');
+						}elseif(in_array('E', $EO)){
+							array_push($complementery[$row], $sec, $type, $days, $s_time, $e_time,$space,'E');
+						}else{
+							array_push($complementery[$row], $sec, $type, $days, $s_time, $e_time,$space,'B');
+						}
+						
 					}
 /********************************************************************************************************
 	Linking course code, name, day and timing information into two arrays specifyed by semester of 
@@ -248,7 +353,7 @@
 							
 			}
 
-
+$conn->close();	
 /********************************************************************************************************
 	functions for the creation of conflect free time table.
 ********************************************************************************************************/	
@@ -261,7 +366,7 @@ function newTimeTable(){
 						  '00:17:55','00:18:05','00:18:25','00:18:35','00:18:55','00:19:05','00:19:25','00:19:35','00:19:55',
 						  '00:20:05','00:20:25','00:20:35','00:20:55'); 
 			$time = array_fill_keys($Days, $Time);
-		return($time);	 
+			return($time);	 
 	}
 /*****************************************************************
 subArray() finds complementery courses assocaited with 
@@ -282,11 +387,15 @@ time table no longer avalable.
 *****************************************************************/
 
 function cleartime($start,$stop,&$timeE,&$timeO,$day,$week){
-	$offset1 = array_search($start, $timeE[$day]);
-	$offset2 = array_search($stop, $timeE[$day]);
-	$offset3 = array_search($start, $timeO[$day]);
-	$offset4 = array_search($stop, $timeO[$day]);
-
+	
+	if($day != NULL&&$start != NULL&&$stop!=NULL){
+		$offset1 = array_search($start, $timeE[$day]);
+		$offset2 = array_search($stop, $timeE[$day]);
+		$offset3 = array_search($start, $timeO[$day]);
+		$offset4 = array_search($stop, $timeO[$day]);
+	}else{
+		return(1);
+	}
 	switch($week){
 		case('E'):
 					do{
@@ -312,103 +421,104 @@ function cleartime($start,$stop,&$timeE,&$timeO,$day,$week){
 				
 	}
 } 
-/*****************************************************************
-fallClasses() returns an array based on a first try at 
-making a conflect free fall semester timetable base on the 
-database information retrived in the above sql.
-*****************************************************************/
-function fallClasses($TreeListFall,$classesFall,$complementery){			
-			$shedF = array();
-			shuffle($TreeListFall);
-			shuffle($classesFall);
-			Shuffle($complementery);
-			$timeE=newTimeTable();
-			$timeO=newTimeTable();
+	
 
-
-			for($i=0;$i<count($TreeListFall);$i++){
-				
-				$NoMatch = 0;	
-				$check=array();
-				$select = $TreeListFall[$i];
-				for($k=0;$k<Count($classesFall);$k++){
+function shedClasses($TreeListSpec,$classesTotake,$complementery,$electives,$EleListSeason,$S){			
+		$shedW = array();
+		shuffle($TreeListSpec);
+		shuffle($classesTotake);
+		$timeE=newTimeTable();
+		$timeO=newTimeTable();
+		for($i=0;$i<count($TreeListSpec);$i++){
+			$NoMatch = 0;	
+				$check=0;
+				$select = $TreeListSpec[$i];
+				for($k=0;$k<Count($classesTotake);$k++){
 					$day = 0;
-					if ($select == $classesFall[$k][1]){
-						$day = str_split($classesFall[$k][5]);
+					if ($select == $classesTotake[$k][1]){
+						$day = str_split($classesTotake[$k][5]);
 						$j=0;
 						if(count($day)>1){
-							if((in_array($classesFall[$k][6],$timeE[$day[$j]])==in_array($classesFall[$k][7],$timeE[$day[$j]]))
-								&&(in_array($classesFall[$k][6],$timeO[$day[$j]])==in_array($classesFall[$k][7],$timeO[$day[$j]]))){
-								if((in_array($classesFall[$k][6],$timeE[$day[$j+1]])==in_array($classesFall[$k][7],$timeE[$day[$j+1]]))
-									&&(in_array($classesFall[$k][6],$timeO[$day[$j+1]])==in_array($classesFall[$k][7],$timeO[$day[$j+1]]))&&($classesFall[$k][8]>=1)){
-									$check[0]=1;
+							if((in_array($classesTotake[$k][6],$timeE[$day[$j]])&&in_array($classesTotake[$k][7],$timeE[$day[$j]]))
+								&&(in_array($classesTotake[$k][6],$timeO[$day[$j]])&&in_array($classesTotake[$k][7],$timeO[$day[$j]]))){
+								if((in_array($classesTotake[$k][6],$timeE[$day[$j+1]])&&in_array($classesTotake[$k][7],$timeE[$day[$j+1]]))
+									&&(in_array($classesTotake[$k][6],$timeO[$day[$j+1]])&&in_array($classesTotake[$k][7],$timeO[$day[$j+1]]))&&($classesTotake[$k][8]>=1)){
+									$check=1;
 								}
 							}else{
-									$check[0]=0;
-							}			
+									$check=0;
+							}
+						}elseif($classesTotake[$k][5] == NULL){
+							$check=1;				
 						}else{
-							if( (in_array($classesFall[$k][6],$timeE[$day[$j]])==in_array($classesFall[$k][7],$timeE[$day[$j]]))
-								&&(in_array($classesFall[$k][6],$timeO[$day[$j]])==in_array($classesFall[$k][7],$timeO[$day[$j]])&&($classesFall[$k][8]>=1))){
-								$check[0]=1;
+							if( (in_array($classesTotake[$k][6],$timeE[$classesTotake[$k][5]])&&in_array($classesTotake[$k][7],$timeE[$classesTotake[$k][5]]))
+								&&(in_array($classesTotake[$k][6],$timeO[$classesTotake[$k][5]])&&in_array($classesTotake[$k][7],$timeO[$classesTotake[$k][5]])&&($classesTotake[$k][8]>=1))){
+								$check=1;
 							}
 						}	
 
-						if(count($check)>0 && $check[0]==1){
-							$compTemp = subArray($complementery, $classesFall[$k][0]);
-						
+						if($check==1){
+							do{
+								Shuffle($complementery);
+								$compTemp = subArray($complementery, $classesTotake[$k][0]);
+
+							}while($compTemp[3]=='PAS');
+
 							if (is_null($compTemp)){
-								$shedF[$i]=$classesFall[$k];
-								cleartime($classesFall[$k][6],$classesFall[$k][7],$timeE,$timeO,$day[$j],'B');
-								
+								$shedW[$i]=$classesTotake[$k];
+								if(count($day)>1){
+									cleartime($classesTotake[$k][6],$classesTotake[$k][7],$timeE,$timeO,$day[$j],'B');
+									cleartime($classesTotake[$k][6],$classesTotake[$k][7],$timeE,$timeO,$day[$j+1],'B');
+								}elseif(count($day)==1){
+									cleartime($classesTotake[$k][6],$classesTotake[$k][7],$timeE,$timeO,$day[0],'B');
+								}
 								
 								if(count($day)>1){
-									cleartime($classesFall[$k][6],$classesFall[$k][7],$timeE,$timeO,$day[$j+1],'B');
-									
+									cleartime($classesTotake[$k][6],$classesTotake[$k][7],$timeE,$timeO,$day[$j+1],'B');
 								}
 								$NoMatch=1;
 								break;
 
 							}elseif(is_array($compTemp)){
 								$days = str_split($compTemp[4]);
-									if(count($days)==1){
-										$week = str_split($compTemp[3]);		
-										if(in_array('O', $week)){
-											if((in_array($compTemp[5],$timeO[$compTemp[4]])==in_array($compTemp[6],$timeO[$compTemp[4]]))&&($compTemp[7]>=1)){
+									if(count($days)==1){	
+										if($compTemp[8]=='O'){
+											if((in_array($compTemp[5],$timeO[$compTemp[4]])&&in_array($compTemp[6],$timeO[$compTemp[4]]))&&($compTemp[7]>=1)){
 											
-												$shedF[$i]=$classesFall[$k];
-												array_push($shedF[$i], $compTemp);									
-												cleartime($classesFall[$k][6],$classesFall[$k][7],$timeE,$timeO,$day[$j],'B');
+												$shedW[$i]=$classesTotake[$k];
+												array_push($shedW[$i], $compTemp);									
+												cleartime($classesTotake[$k][6],$classesTotake[$k][7],$timeE,$timeO,$day[$j],'B');
 												cleartime($compTemp[5],$compTemp[6],$timeE,$timeO,$compTemp[4],'O');
 												if(count($day)>1){											
-												cleartime($classesFall[$k][6],$classesFall[$k][7],$timeE,$timeO,$day[$j+1],'B');					
+													cleartime($classesTotake[$k][6],$classesTotake[$k][7],$timeE,$timeO,$day[$j+1],'B');					
 												}
-										
-											$NoMatch=1;
-											break;
-										}
-									}elseif(in_array('E',$week)){
-										if((in_array($compTemp[5],$timeE[$compTemp[4]])==in_array($compTemp[6],$timeE[$compTemp[4]]))&&($compTemp[7]>=1)){
-										
-											$shedF[$i]=$classesFall[$k];
-											array_push($shedF[$i], $compTemp);
-											cleartime($classesFall[$k][6],$classesFall[$k][7],$timeE,$timeO,$day[$j],'B');						
-											cleartime($compTemp[5],$compTemp[6],$timeE,$timeO,$compTemp[4],'E');
-											if(count($day)>1){											
-												cleartime($classesFall[$k][6],$classesFall[$k][7],$timeE,$timeO,$day[$j+1],'B');
-											}
 											
 											$NoMatch=1;
 											break;
+											}
+										}elseif($compTemp[8]=='E'){
+											if((in_array($compTemp[5],$timeE[$compTemp[4]])&&in_array($compTemp[6],$timeE[$compTemp[4]]))&&($compTemp[7]>=1)){
+										
+												$shedW[$i]=$classesTotake[$k];
+												array_push($shedW[$i], $compTemp);
+												cleartime($classesTotake[$k][6],$classesTotake[$k][7],$timeE,$timeO,$day[$j],'B');						
+												cleartime($compTemp[5],$compTemp[6],$timeE,$timeO,$compTemp[4],'E');
+												if(count($day)>1){											
+													cleartime($classesTotake[$k][6],$classesTotake[$k][7],$timeE,$timeO,$day[$j+1],'B');
+												}
+											
+												$NoMatch=1;
+												break;
 										}
-									}elseif((in_array($compTemp[5],$timeO[$compTemp[4]])==in_array($compTemp[6],$timeO[$compTemp[4]]))&&
-										(in_array($compTemp[5],$timeE[$compTemp[4]])==in_array($compTemp[6],$timeE[$compTemp[4]]))&&($compTemp[7]>=1)){
+									}elseif(count($days>1)&&(in_array($compTemp[5],$timeO[$compTemp[4]])&&in_array($compTemp[6],$timeO[$compTemp[4]]))&&
+										(in_array($compTemp[5],$timeE[$compTemp[4]])&&in_array($compTemp[6],$timeE[$compTemp[4]]))&&($compTemp[7]>=1)){
 
-										$shedF[$i]=$classesFall[$k];
-										array_push($shedF[$i], $compTemp);										
-										cleartime($classesFall[$k][6],$classesFall[$k][7],$timeE,$timeO,$day[$j],'B');						
+										$shedW[$i]=$classesTotake[$k];
+										array_push($shedW[$i], $compTemp);										
+										cleartime($classesTotake[$k][6],$classesTotake[$k][7],$timeE,$timeO,$day[$j],'B');						
 										cleartime($compTemp[5],$compTemp[6],$timeE,$timeO,$compTemp[4],'B');
 										if(count($day)>1){										
-											cleartime($classesFall[$k][6],$classesFall[$k][7],$timeE,$timeO,$day[$j+1],'E');
+											cleartime($classesTotake[$k][6],$classesTotake[$k][7],$timeE,$timeO,$day[1],'E');
 										}
 										
 										$NoMatch=1;
@@ -417,304 +527,67 @@ function fallClasses($TreeListFall,$classesFall,$complementery){
 										$NoMatch=0;
 									}
 								}else{
-									if((in_array($compTemp[5],$timeO[$compTemp[4]])==in_array($compTemp[6],$timeO[$days[0]]))&&
-									   (in_array($compTemp[5],$timeE[$compTemp[4]])==in_array($compTemp[6],$timeE[$days[0]]))&&
-									   (in_array($compTemp[5],$timeO[$compTemp[4]])==in_array($compTemp[6],$timeO[$days[1]]))&&
-									   (in_array($compTemp[5],$timeE[$compTemp[4]])==in_array($compTemp[6],$timeE[$days[1]]))&&($compTemp[7]>=1)){
-											$shedF[$i]=$classesFall[$k];
-											array_push($shedF[$i], $compTemp);										
-											cleartime($classesFall[$k][6],$classesFall[$k][7],$timeE,$timeO,$day[$j],'B');						
+									if((in_array($compTemp[5],$timeO[$compTemp[4]])&&in_array($compTemp[6],$timeO[$days[0]]))&&
+									   (in_array($compTemp[5],$timeE[$compTemp[4]])&&in_array($compTemp[6],$timeE[$days[0]]))&&
+									   (in_array($compTemp[5],$timeO[$compTemp[4]])&&in_array($compTemp[6],$timeO[$days[1]]))&&
+									   (in_array($compTemp[5],$timeE[$compTemp[4]])&&in_array($compTemp[6],$timeE[$days[1]]))&&($compTemp[7]>=1)){
+											$shedW[$i]=$classesTotake[$k];
+											array_push($shedW[$i], $compTemp);										
+											cleartime($classesTotake[$k][6],$classesTotake[$k][7],$timeE,$timeO,$day[$j],'B');						
 											cleartime($compTemp[5],$compTemp[6],$timeE,$timeO,$days[0],'B');
 											cleartime($compTemp[5],$compTemp[6],$timeE,$timeO,$days[1],'B');
 											if(count($day)>1){										
-											cleartime($classesFall[$k][6],$classesFall[$k][7],$timeE,$timeO,$day[$j+1],'E');
+											cleartime($classesTotake[$k][6],$classesTotake[$k][7],$timeE,$timeO,$day[$j+1],'E');
 											}
 
-									   }
+									}
 								}
-							}		
-						}
-					}
-				}
-
-			}
-			return($shedF);	
-}
-
-/*****************************************************************
-WinterClasses() returns an array based on a first try at 
-making a conflect free Winter semester timetable base on the 
-database information retrived in the above sql.
-*****************************************************************/
-
-function winterClasses($TreeListWinter,$classesWinter,$complementery){			
-			$shedW = array();
-			shuffle($TreeListWinter);
-			shuffle($classesWinter);
-			Shuffle($complementery);
-			$timeE=newTimeTable();
-			$timeO=newTimeTable();
-
-
-			for($i=0;$i<count($TreeListWinter);$i++){
-				
-				$NoMatch = 0;	
-				$check=array();
-				$select = $TreeListWinter[$i];
-				for($k=0;$k<Count($classesWinter);$k++){
-					$day = 0;
-					if ($select == $classesWinter[$k][1]){
-						$day = str_split($classesWinter[$k][5]);
-						$j=0;
-						if(count($day)>1){
-							if((in_array($classesWinter[$k][6],$timeE[$day[$j]])==in_array($classesWinter[$k][7],$timeE[$day[$j]]))
-								&&(in_array($classesWinter[$k][6],$timeO[$day[$j]])==in_array($classesWinter[$k][7],$timeO[$day[$j]]))){
-								if((in_array($classesWinter[$k][6],$timeE[$day[$j+1]])==in_array($classesWinter[$k][7],$timeE[$day[$j+1]]))
-									&&(in_array($classesWinter[$k][6],$timeO[$day[$j+1]])==in_array($classesWinter[$k][7],$timeO[$day[$j+1]]))
-									&&$classesWinter[$k][8]>=1){
-									$check[0]=1;
-								}
-							}else{
-									$check[0]=0;
-							}			
-						}else{
-							if( (in_array($classesWinter[$k][6],$timeE[$day[$j]])==in_array($classesWinter[$k][7],$timeE[$day[$j]]))
-								&&(in_array($classesWinter[$k][6],$timeO[$day[$j]])==in_array($classesWinter[$k][7],$timeO[$day[$j]]))
-								&&$classesWinter[$k][8]>=1){
-								$check[0]=1;
 							}
-						}	
-
-						if(count($check)>0 && $check[0]==1){
-							$compTemp = subArray($complementery, $classesWinter[$k][0]);
-						
-							if (is_null($compTemp)){
-								$shedW[$i]=$classesWinter[$k];
-								cleartime($classesWinter[$k][6],$classesWinter[$k][7],$timeE,$timeO,$day[$j],'B');
-								
-								
-								if(count($day)>1){
-									cleartime($classesWinter[$k][6],$classesWinter[$k][7],$timeE,$timeO,$day[$j+1],'B');
-									
-								}
-								$NoMatch=1;
-								break;
-
-							}elseif(is_array($compTemp)){
-
-								$week = str_split($compTemp[3]);
-								$days = str_split($compTemp[4]);		
-								if(in_array('O', $week)){
-									if((in_array($compTemp[5],$timeO[$days[0]])==in_array($compTemp[6],$timeO[$days[0]]))&&
-									   (in_array($compTemp[5],$timeO[$days[1]])==in_array($compTemp[6],$timeO[$days[1]]))&&$compTemp[7]>=1){
-										
-										$shedW[$i]=$classesWinter[$k];
-										array_push($shedW[$i], $compTemp);									
-										cleartime($classesWinter[$k][6],$classesWinter[$k][7],$timeE,$timeO,$day[$j],'B');
-										cleartime($compTemp[5],$compTemp[6],$timeE,$timeO,$days[0],'O');
-
-										if(count($day)>1){											
-											cleartime($classesWinter[$k][6],$classesWinter[$k][7],$timeE,$timeO,$day[$j+1],'B');					
-										}
-										
-										$NoMatch=1;
-										break;
-									}
-								}elseif(in_array('E',$week)){
-									if((in_array($compTemp[5],$timeE[$days[0]])==in_array($compTemp[6],$timeE[$days[0]]))&&
-									   (in_array($compTemp[5],$timeE[$days[1]])==in_array($compTemp[6],$timeE[$days[1]]))&& $compTemp[7]>=1){
-										
-										$shedW[$i]=$classesWinter[$k];
-										array_push($shedW[$i], $compTemp);
-										cleartime($classesWinter[$k][6],$classesWinter[$k][7],$timeE,$timeO,$day[$j],'B');						
-										cleartime($compTemp[5],$compTemp[6],$timeE,$timeO,$days[0],'E');
-										if(count($day)>1){											
-											cleartime($classesWinter[$k][6],$classesWinter[$k][7],$timeE,$timeO,$day[$j+1],'B');
-										}
-										
-										$NoMatch=1;
-										break;
-									}
-								}elseif(count($days)>1)
-									if((in_array($compTemp[5],$timeO[$days[1]])==in_array($compTemp[6],$timeO[$days[1]]))&&
-									  (in_array($compTemp[5],$timeE[$days[1]])==in_array($compTemp[6],$timeE[$days[1]]))&&
-									  (in_array($compTemp[5],$timeO[$days[0]])==in_array($compTemp[6],$timeO[$days[0]]))&&
-									  (in_array($compTemp[5],$timeE[$days[0]])==in_array($compTemp[6],$timeE[$days[0]]))&&$compTemp[7]>=1){
-
-										$shedW[$i]=$classesWinter[$k];
-										array_push($shedW[$i], $compTemp);										
-										cleartime($classesWinter[$k][6],$classesWinter[$k][7],$timeE,$timeO,$day[$j],'B');						
-										cleartime($compTemp[5],$compTemp[6],$timeE,$timeO,$days[0],'B');
-										if(count($days)>1){
-											cleartime($compTemp[5],$compTemp[6],$timeE,$timeO,$days[1],'B');	
-										}
-										if(count($day)>1){										
-											cleartime($classesWinter[$k][6],$classesWinter[$k][7],$timeE,$timeO,$day[$j+1],'E');
-										}
-										
-										$NoMatch=1;
-										break;
-								}elseif((in_array($compTemp[5],$timeO[$days[0]])==in_array($compTemp[6],$timeO[$days[0]]))&&
-									  (in_array($compTemp[5],$timeE[$days[0]])==in_array($compTemp[6],$timeE[$days[0]]))&&$compTemp[7]>=1){
-										$shedW[$i]=$classesWinter[$k];
-										array_push($shedW[$i], $compTemp);										
-										cleartime($classesWinter[$k][6],$classesWinter[$k][7],$timeE,$timeO,$day[$j],'B');						
-										cleartime($compTemp[5],$compTemp[6],$timeE,$timeO,$days[0],'B');
-										if(count($day)>1){										
-											cleartime($classesWinter[$k][6],$classesWinter[$k][7],$timeE,$timeO,$day[$j+1],'E');
-										}
-										$NoMatch=1;
-								}else{
-									$NoMatch=0;
-								}
-								
-							}		
 						}
 					}
 				}
-				//if($NoMatch==0){
-				//	$tryAgain= winterClasses($TreeListWinter,$classesWinter,$complementery);
-				//	return($tryAgain);
-				//}
-			}
-			return($shedW);	
+			}	
+		if($NoMatch==0){
+			$shedW = shedClasses($TreeListWinter,$classesTotake,$complementery,$S);
+		}
+		if(count($EleListSeason)>0){
+			//$elec = selectElectives($timeE,$timeO,$electives, $EleListSeason,$S,$complementery,0);
+			//$shed = array_merge($shedW,$elec);
+		}	
+	
+	return($shedW);	
 }										
 				
 		
 
-/*****************************************************************
-	selectElectives() Selecting required electives, second to 
-	core courses. selection based solely on first fit. Note 
-	shuffling of array allows for random behaviours in selecting. 
-*****************************************************************/
-function selectElectives(){
 
-}
 	
-/*****************************************************************
-calls to functions below store created arrays in associated
-variables (see debug for how to index in)
-*****************************************************************/
 
-$shed1F = fallClasses($TreeListFall,$classesFall,$complementery);
-//$shed2F = fallClasses($TreeListFall,$classesFall,$complementery);
-$shed1W = winterClasses($TreeListWinter,$classesWinter,$complementery);
-//	$shed2W = winterClasses($TreeListWinter,$classesWinter,$complementery);
 
-$conn->close();			
-?>	
+				$shed1F = shedClasses($TreeListFall,$classesFall,$complementery,$electives,$EleListFall,0);
+				$shed2F = shedClasses($TreeListFall,$classesFall,$complementery,$electives,$EleListFall,0);
+				$shed1W = shedClasses($TreeListWinter,$classesWinter,$complementery,$electives,$EleListWinter,1);
+				$shed2W = shedClasses($TreeListWinter,$classesWinter,$complementery,$electives,$EleListWinter,1);
+				
+
+
+
+					//shed[0][x]= [0]->course_id [1]->SUBJ Number [2]->course name [3]->sectio [4]-> type [5]->days [6]->s_time, [7]->e_time 
+					//[8]->ROOM_CAP [9]->ARRAY([9][0]->Lec course_id 
+					//[9][1]->lab course_id [9][2]->lab section [9][3]->type [9][4]->days [9][5]->lab s_time [9][6]->lab e_time [9][7]->lab ROOM_CAP [9][8]even/odd)
+
+
+				for($i=0;$i<count($shed1F);$i++){
+					    testStamp($shed1F[$i][2],$shed1F[$i][4],$shed1F[$i][6],$shed1F[$i][7],$shed1F[$i][5],$shed1F[$i][3],'B');
+					if(count($shed1F[$i])>9){	
+						testStamp($shed1F[$i][2],$shed1F[$i][9][3],$shed1F[$i][9][5],$shed1F[$i][9][6],$shed1F[$i][9][4],$shed1F[$i][9][2],$shed1F[$i][9][8]);
+					}	
+				}	
+				
+				
+				?>	
 
 
 <?/********************************************************************************************************
 	Debug Stuff
 ********************************************************************************************************/?>
-<table id = 'list' name='Fall' align = 'left' padding = '10%'>
-				<tr>
-					<th>Class Fall</th>
-				</tr>
-				<?
-					for($i = 0;$i<count($TreeListFall);$i++){
-						echo "<tr>
-									<td>".$TreeListFall[$i]."</td>";
-								
-									echo "</tr>";
-					}	
-				?>	
-			</table>
-			<table id = 'list' name='Fall' align = 'left' padding = '10%'>
-				<tr>
-					<th>Class Winter</th>
-				</tr>
-				<?
-					for($i = 0;$i<count($TreeListWinter);$i++){
-						echo "<tr>
-									<td>".$TreeListWinter[$i]."</td>";
-								
-									echo "</tr>";
-								}	
-				?>	
-			</table>
-			<br>
-			<table id = 'list' name='Fall' align = 'left' padding = '10%'>
-				<th>Fall</th>
-				<tr>
-					<th>Class</th>
-					<th>CompClass</th>
-				</tr>
-				<?
-					for($i = 0;$i<count($shed1F);$i++){
-						echo "<tr>
-									<td>".$shed1F[$i][1]."-".$shed1F[$i][2]."-".$shed1F[$i][4]."-".$shed1F[$i][5]."-".$shed1F[$i][6]."-".$shed1F[$i][7]."</td>";
-								if(count($shed1F[$i])>9){	
-									echo	"<td>".$shed1F[$i][9][2]."-".$shed1F[$i][9][3]."-".$shed1F[$i][9][4]."-".$shed1F[$i][9][5]."-".$shed1F[$i][9][6]."</td></tr>";
-								}else{
-									echo "<td></td></tr>";
-								}	
-							
-							 
-					}
-				?>	
-			</table>
-			<table id = 'list' name='Winter' align = 'right' padding = '10%'>
-				<th>Winter</th>
-				<tr>
-					<th>Class</th>
-					<th>CompClasses</th>
-				</tr>
-				<?
-					for($i = 0;$i<count($shed1W);$i++){
-						echo "<tr>
-									<td>".$shed1W[$i][2]."-".$shed1W[$i][4]."-".$shed1W[$i][5]."-".$shed1W[$i][6]."-".$shed1W[$i][7]."</td>";
-								if(count($shed1W[$i])>9){	
-									echo "<td>".$shed1W[$i][9][2]."-".$shed1W[$i][9][3]."-".$shed1W[$i][9][4]."-".$shed1W[$i][9][5]."-".$shed1W[$i][9][6]."</td></tr>";
-								}else{
-									echo "<td></td></tr>";
-								}	
-							 
-					}
-				?>	
-			</table>
-			<br><br><br><br>
-			<br><br><br><br>
-		
-			<table id = 'list' name='Fall' align = 'left' padding = '10%'>
-				<th>Fall</th>
-				<tr>
-					<th>Class</th>
-					<th>CompClass</th>
-				</tr>
-				<?
-					for($i = 0;$i<count($shed2F);$i++){
-						echo "<tr>
-									<td>".$shed2F[$i][1]."-".$shed2F[$i][2]."-".$shed2F[$i][4]."-".$shed2F[$i][5]."-".$shed2F[$i][6]."-".$shed2F[$i][7]."</td>";
-								if(count($shed2F[$i])>8){	
-									echo	"<td>".$shed2F[$i][8][2]."-".$shed2F[$i][8][3]."-".$shed2F[$i][8][4]."-".$shed2F[$i][8][5]."-".$shed2F[$i][8][6]."</td></tr>";
-								}else{
-									echo "<td></td></tr>";
-								}	
-							
-							 
-					}
-				?>	
-			</table>
-			
-			<table id = 'list' name='Winter' align = 'left' padding = '10%'>
-				<th>Winter</th>
-				<tr>
-					<th>Class</th>
-					<th>CompClasses</th>
-				</tr>
-				<?
-					for($i = 0;$i<count($shed2W);$i++){
-						echo "<tr>
-									<td>".$shed2W[$i][2]."-".$shed2W[$i][4]."-".$shed2W[$i][5]."-".$shed2W[$i][6]."-".$shed2W[$i][7]."</td>";
-								if($shed2W[$i][8]!=0){	
-									echo "<td>".$shed2W[$i][8][2]."-".$shed2W[$i][8][3]."-".$shed2W[$i][8][4]."-".$shed2W[$i][8][5]."-".$shed2W[$i][8][6]."</td></tr>";
-								}else{
-									echo "<td></td></tr>";
-								}	
-							 
-					}
-				?>	
-			</table>				
-	
