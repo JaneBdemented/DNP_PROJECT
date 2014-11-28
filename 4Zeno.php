@@ -18,10 +18,7 @@ function offTrackShed($Classes,$sem,$complementery){
 	shuffle($Classes);
 	for($i=0;$i<6;$i++){
 			$index = 0;
-			if($which == 0){
 			$list = $Classes[$index];
-			shuffle($list);
-			}
 			$compTemp=NULL;
 			$match = 0;
 		while($match == 0){
