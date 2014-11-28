@@ -1,0 +1,8 @@
+///This needs to be run in the sql window 
+
+
+LOAD DATA INFILE 'c://xamppNew//htdocs//DNP_PROJECT//PrerequisiteExport-V2.txt' 
+INTO TABLE Prereq2
+FIELDS TERMINATED BY ';'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES;
