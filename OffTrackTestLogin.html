@@ -1,0 +1,80 @@
+<html>
+<head>
+
+	<title> Demo Login Page </title>
+	<link rel="stylesheet" href="style.css">
+	
+	<script>
+			function change(){
+				var Year = document.getElementById("Year")
+				Year.innerHTML = "<label> Year: </label><select><option value=\"1\">1</option><option value=\"2\">2</option><option value=\"3\">3</option><option value=\"4\">4</option></select>";
+			}
+	</script>
+
+</head>
+
+<body>
+
+
+	<div class ="container">
+  	<div class ="login">
+
+    	<h1> Login </h1>
+
+    	<form method="post" action="OFF_TRACK_v2.php">
+      		<p><input type="text" name="user_ID" value="" placeholder="Username or Student Number "></p>
+		<br/>
+      	Program :
+		<select name="Stream">
+			<option>Comms</option>
+			<option>BIO-ELEC</option>
+			<option>CSE</option>
+			<option>SE</option>
+		</select>
+		<br/>	
+		Year: 
+		<select name="Year">
+		<option value= 1>1</option><option value=2 >2</option><option value=3 >3</option><option value=4 >4</option>
+		</select>
+		<br/>
+		<input name="box1" id="box11" type="radio" value="On Pattern" /> ON Pattern <br/>
+		<input name="box1" id="box12" type="radio" value="Off Pattern"/> OFF Pattern<br/>            		
+		<label>
+		<br/>
+		Semester:
+         <select name = "Semester">
+			<option value= 0>Fall 2014</option>
+			<option value= 1>Winter 2015</option>
+		</select>     
+        	</label>
+        	</label>
+      	</p>
+		
+	<!-- 
+		Select the Year (if ON Pattern) :
+         <select name = "Year" >
+			<option  value="1">1st </option>
+			<option  value="2">2nd </option>
+			<option  value="3">3rd </option>
+			<option  value="4">4th </option>
+		</select>  
+	
+				
+		<br/>		
+        	</label>
+			-->
+	
+      	<div id="Year"> 
+		
+	</div>
+	<br/>
+   <p class="submit"><input type="submit" name="commit" value="Submit"></p>
+</form>
+
+
+
+ 	
+</body>
+
+
+</html>
