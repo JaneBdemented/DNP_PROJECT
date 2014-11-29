@@ -8,6 +8,7 @@
 						  '00:15:35','00:15:55','00:16:05','00:16:25','00:16:35','00:16:55','00:17:05','00:17:25','00:17:35',
 						  '00:17:55','00:18:05','00:18:25','00:18:35','00:18:55','00:19:05','00:19:25','00:19:35','00:19:55',
 						  '00:20:05','00:20:25','00:20:35','00:20:55'); 
+						  
 			$time = array_fill_keys($Days, $Time);
 			return($time);	 
 	}
@@ -23,26 +24,26 @@ function cleartime($start,$stop,&$timeE,&$timeO,$day,$week){
 		$offset2 = array_search($stop, $timeE[$day]);
 		$offset3 = array_search($start, $timeO[$day]);
 		$offset4 = array_search($stop, $timeO[$day]);
-	}else{ 
+	}else{
 		return(1);
 	}
 	switch($week){
 		case('E'):
 					do{
-						$timeE[$day][$offset1]=0;
+						$timeE[$day][$offset1]='0';
 						$offset1++;
 					}while ($offset1 <= $offset2);
 					break; 
 		case('O'):
 					do{
-						$timeO[$day][$offset3]=0;
+						$timeO[$day][$offset3]='0';
 						$offset3++;
 					}while ($offset3 <= $offset4);
 					break; 
 		case('B'):
 					while ($offset1 <= $offset2){
-						$timeO[$day][$offset1]=0;
-						$timeE[$day][$offset1]=0;
+						$timeO[$day][$offset1]='0';
+						$timeE[$day][$offset1]='0';
 						$offset1++;
 					};
 					break;
@@ -57,16 +58,6 @@ function cleartime($start,$stop,&$timeE,&$timeO,$day,$week){
 
 //-------------------------------------------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-
 function offTrackShed($Classes,$sem,$complementery){
 	$timeE = newTimeTable();
 	$timeO = newTimeTable();
@@ -80,14 +71,18 @@ function offTrackShed($Classes,$sem,$complementery){
 	if ($conn->connect_error) {
 		echo("Connection failed: " . $conn->connect_error);	
 	}	
+	//print_r($Classes) ;
 	shuffle($Classes);
-	for($i=0;$i<6;$i++){
+	for($i=0;$i<count($Classes);$i++){
 			$index = 0;
 			
 			$compTemp=NULL;
 			$match = 0;
-		while($match == 0){
+			//echo "<br/>";
+		while($index < count($Classes)){
 				$list = $Classes[$index];
+				//echo "i got here" ;
+				//echo $list."</br>" ; 
 				$index++ ;
 				$stmt = $conn->prepare("SELECT SUB_VAL, TYPE, DAYS, time_s, time_e,ROOM_CAP FROM Course_Timing Where course_id = ?");
 				$stmt->bind_param("i",$list);
@@ -190,7 +185,10 @@ function offTrackShed($Classes,$sem,$complementery){
 						}
 					}
 				}
-			}	
+				
+					$list = NULL ;
+			}	//end while
+		
 		}	
 				
 	$conn->close();
@@ -199,13 +197,6 @@ function offTrackShed($Classes,$sem,$complementery){
 	}
 	return($shed_elec);
 } // end function
-
-
-
-
-
-
-
 
 
 
@@ -558,6 +549,7 @@ $stmt->close();
 array_push ($courseids_array,$WantedCourse_id);
  
 }//end for 
+
  //print_r($courseids_array);
  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
  
@@ -573,6 +565,7 @@ array_push ($courseids_array,$WantedCourse_id);
 
 $shed_elec= offTrackShed($courseids_array,$Semester,$complementery) ;
 print_r($shed_elec);
+//print_r($shed_elec);
 /* 
 				for($l=0;$i<count($shed_elec);$l++){
 					functioncall($shed_elec[$l][2],$shed_elec[$l][4],$shed_elec[$l][6],$shed_elec[$l][7],$shed_elec[$l][5],$shed_elec[$l][3],'B');
